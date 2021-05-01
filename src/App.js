@@ -16,35 +16,26 @@ class UMLClass
 }
 
 class Sketch extends Component {
+  state = {
+
+  }
   constructor()
   {
       super();
       this.myRef = React.createRef();
+      this.state.UMLs = [];
+      this.genUMLs = this.genUMLs.bind(this);
   }
 
   componentDidMount()
   {
     // let uml = new UMLClass();
     // console.log(uml);
-
-    // this.sketch = new p5( p  => {
-    //   // }
-    //   p.setup = () => {
-    //       p.createCanvas(1080,512).parent(this.myRef.current);
-    //       p.background(0);
-    //       p.textFont('Droid Sans Mono');
-    //       let x = 30;
-    //       let y = 30;
-
-          
-    //   };
-
-    //   p.draw = () => {
-
-    //     p.background(0);
-    //     this.drawUML(uml,p,p.mouseX,p.mouseY);
-    //   }
-    // });
+    window.addEventListener('uml', (e) => {
+      console.log('bc');
+      this.state.UMLs = e.detail;
+      console.log(this.state.UMLs);
+    });
   }
 
   drawUML(uml,p,x,y)
@@ -95,6 +86,33 @@ class Sketch extends Component {
 
 
     p.blendMode(p.BLEND);
+    return (x+maxSize);
+  }
+
+  genUMLs()
+  {
+      this.sketch = new p5( p  => {
+      // }
+      p.setup = () => {
+          p.createCanvas(1080,512).parent(this.myRef.current);
+          p.background(255);
+          p.textFont('Droid Sans Mono');
+          let x = 30;
+          let y = 30;
+          p.background(0);
+          for(let i=0;i<this.state.UMLs.length;i++)
+          {
+            let uml = this.state.UMLs[i];
+            x = this.drawUML(uml,p,x,y) + 20;
+          }
+      };
+
+      // p.draw = () => {
+
+        
+      //   // this.drawUML(uml,p,p.mouseX,p.mouseY);
+      // }
+    });
   }
 
   render()
@@ -102,14 +120,15 @@ class Sketch extends Component {
       return(
           <div className='App'>
               <File></File>
-              {/* <div ref={this.myRef} className='rendiv' id='renderTarget' style={{
+              <button type="button" onClick={this.genUMLs}>Draw</button>
+              <div ref={this.myRef} className='rendiv' id='renderTarget' style={{
                   
                   // backgroundImage: "url('./assets/charu1.jpg')",
                   minHeight: '100vh',
                   display:'flex',
                   justifyContent: 'center',
                   alignItems: 'center'
-              }}></div> */}
+              }}></div>
           </div>
       )
   }
