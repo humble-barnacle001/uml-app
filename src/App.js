@@ -32,9 +32,9 @@ class Sketch extends Component {
     // let uml = new UMLClass();
     // console.log(uml);
     window.addEventListener('uml', (e) => {
-      console.log('bc');
       this.state.UMLs = e.detail;
       console.log(this.state.UMLs);
+      this.genUMLs();
     });
   }
 
@@ -47,7 +47,7 @@ class Sketch extends Component {
     y += 30;
 
     p.noStroke();
-    p.fill(255);
+    p.fill('#ff4971');
     p.textSize(15);
     p.textAlign(p.LEFT);
 
@@ -75,9 +75,9 @@ class Sketch extends Component {
     p.textAlign(p.CENTER);
     p.text(uml.className, (2*x+maxSize)/2, ay+20);
 
-    p.stroke(255);
-    p.fill('#111');
-    p.blendMode(p.SCREEN);
+    p.stroke('#ff4971');
+    p.noFill();
+    // p.blendMode(p.MULTIPLY);
     p.rect(x, ay, maxSize, y+10 - ay, 10);
 
     p.line(x,ay+28,x+maxSize,ay+28);
@@ -86,24 +86,65 @@ class Sketch extends Component {
 
 
     p.blendMode(p.BLEND);
-    return (x+maxSize);
+    return [x+maxSize,y];
   }
 
   genUMLs()
   {
+
+      console.log('bc');
       this.sketch = new p5( p  => {
       // }
       p.setup = () => {
-          p.createCanvas(1080,512).parent(this.myRef.current);
+          p.createCanvas(4000,1000).parent(this.myRef.current);
           p.background(255);
           p.textFont('Droid Sans Mono');
           let x = 30;
           let y = 30;
-          p.background(0);
+          let maxX = x;
+          let maxY = y;
+          // p.background(0);
           for(let i=0;i<this.state.UMLs.length;i++)
           {
             let uml = this.state.UMLs[i];
-            x = this.drawUML(uml,p,x,y) + 20;
+            let newX, newY;
+            [newX, newY] = this.drawUML(uml,p,x,y)
+            maxX = Math.max(maxX,newX);
+            maxY = Math.max(maxY,newY);
+            if(newY>=600)
+            {  
+              x = maxX+20;
+              y= 30;
+            }
+            else
+              y = newY + 20;
+          }
+
+          p.remove();
+          
+          p.createCanvas(maxX+30,maxY+30).parent(this.myRef.current);
+          p.background(255);
+          p.textFont('Droid Sans Mono');
+          x = 30;
+          y = 30;
+          maxX=0;
+          maxY=0;
+
+          // p.background(0);
+          for(let i=0;i<this.state.UMLs.length;i++)
+          {
+            let uml = this.state.UMLs[i];
+            let newX, newY;
+            [newX, newY] = this.drawUML(uml,p,x,y)
+            maxX = Math.max(maxX,newX);
+            maxY = Math.max(maxY,newY);
+            if(newY>=600)
+            {  
+              x = maxX+20;
+              y= 30;
+            }
+            else
+              y = newY + 20;
           }
       };
 
@@ -120,11 +161,13 @@ class Sketch extends Component {
       return(
           <div className='App'>
               <File></File>
-              <button type="button" onClick={this.genUMLs}>Draw</button>
+              {/* <button type="button" onClick={this.genUMLs}>Draw</button> */}
               <div ref={this.myRef} className='rendiv' id='renderTarget' style={{
-                  
+                  border: '1px solid #333',
+                  background : '#ddd',
                   // backgroundImage: "url('./assets/charu1.jpg')",
                   minHeight: '100vh',
+                  transform: 'scale(0.7,0.7)',
                   display:'flex',
                   justifyContent: 'center',
                   alignItems: 'center'

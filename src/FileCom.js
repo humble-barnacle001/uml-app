@@ -77,10 +77,11 @@ class File extends Component {
   getClasses(fil)
   {
     let i;
+
+    let className = fil[fil.indexOf("class")+1];
+
+    
     let startClass = fil.indexOf("{");
-
-    let className = fil[startClass-1];
-
     // console.log(className);
 
     let methods = [];

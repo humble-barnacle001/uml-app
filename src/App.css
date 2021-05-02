@@ -1,5 +1,89 @@
 
 .rendiv {
   /* background-image: url('assets/charu1.jpg'); */
-  background-color: #121212;
+  background-color: #fff;
 }
+
+/* button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+} */
+
+#drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width: 480px;
+  font-family: sans-serif;
+  margin: 100px auto;
+  padding: 20px;
+}
+#drop-area.highlight {
+  border-color: purple;
+}
+p {
+  margin-top: 0;
+}
+.my-form {
+  margin-bottom: 10px;
+}
+#gallery {
+  margin-top: 10px;
+}
+#gallery img {
+  width: 150px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.button {
+  display: inline-block;
+  padding: 10px;
+  background: #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.button:hover {
+  background: #ddd;
+}
+#fileElem {
+  display: none;
+}
+
+/* handleFiles(event)
+{
+  // event.preventDefault();
+
+  this.fileInput.current.files.forEach( (f) => {
+    console.log(f.name);
+  });
+}
+
+handleSubmit(event) {
+  event.preventDefault();
+  this.fileInput.current.files.forEach( (f) => {
+    this.showFile(f);
+  });
+}
+
+render = () => {
+
+  return (
+  <div id="drop-area">
+    <form className="my-form" onSubmit={this.handleSubmit}>
+      <input type="file" id="fileElem" multiple accept=".java" 
+          ref={this.fileInput} 
+          onChange={this.handleFiles}/>
+      <label className="button" htmlFor="fileElem">Select some files</label>
+      <br/>
+      <button className="button" type="submit">Submit</button>
+    </form>
+  </div> */
