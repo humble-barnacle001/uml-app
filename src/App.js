@@ -91,8 +91,11 @@ class Sketch extends Component {
 
   genUMLs()
   {
-
-      console.log('bc');
+      let parentNode = this.myRef.current;
+      while (parentNode.firstChild) {
+          parentNode.removeChild(parentNode.firstChild);
+      }
+      // console.log(this.myRef.current);
       this.sketch = new p5( p  => {
       // }
       p.setup = () => {
@@ -111,13 +114,14 @@ class Sketch extends Component {
             [newX, newY] = this.drawUML(uml,p,x,y)
             maxX = Math.max(maxX,newX);
             maxY = Math.max(maxY,newY);
+            newY = newY + 80;
             if(newY>=600)
             {  
-              x = maxX+20;
+              x = maxX+80;
               y= 30;
             }
             else
-              y = newY + 20;
+              y = newY;
           }
 
           p.remove();
@@ -134,17 +138,19 @@ class Sketch extends Component {
           for(let i=0;i<this.state.UMLs.length;i++)
           {
             let uml = this.state.UMLs[i];
+            // console.log(uml);
             let newX, newY;
             [newX, newY] = this.drawUML(uml,p,x,y)
             maxX = Math.max(maxX,newX);
             maxY = Math.max(maxY,newY);
+            newY = newY + 80;
             if(newY>=600)
             {  
-              x = maxX+20;
+              x = maxX+80;
               y= 30;
             }
             else
-              y = newY + 20;
+              y = newY;
           }
       };
 
@@ -163,14 +169,7 @@ class Sketch extends Component {
               <File></File>
               {/* <button type="button" onClick={this.genUMLs}>Draw</button> */}
               <div ref={this.myRef} className='rendiv' id='renderTarget' style={{
-                  border: '1px solid #333',
-                  background : '#ddd',
-                  // backgroundImage: "url('./assets/charu1.jpg')",
-                  minHeight: '100vh',
-                  transform: 'scale(0.7,0.7)',
-                  display:'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  
               }}></div>
           </div>
       )

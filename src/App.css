@@ -1,28 +1,50 @@
-
+.App{
+  display: flex;
+  flex-direction: column;
+}
 .rendiv {
   /* background-image: url('assets/charu1.jpg'); */
   background-color: #fff;
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  /* background : #eee; */
+  position: relative;
+  /* // backgroundImage: "url('./assets/charu1.jpg')", */
+  /* min-height: 100vh; */
+  /* transform: scale(0.7,0.7); */
+  min-height: 200px;
+  min-width: 200px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  justify-self: center;
+  padding: 0px;
+  margin-bottom: 100px;
+}
+.rendiv canvas{
+  transform: scale(0.7,0.7);
+  margin: 0px;
 }
 
-/* button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-} */
+#upload{
+  width: 100%;
+  /* background: #aaa; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 100px 0px;
+}
 
 #drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
   width: 480px;
   font-family: sans-serif;
-  margin: 100px auto;
+  /* position: relative; */
+  /* left: 50%; */
+
+  /* margin: 100px auto; */
   padding: 20px;
 }
 #drop-area.highlight {
@@ -46,17 +68,52 @@ p {
 .button {
   display: inline-block;
   padding: 10px;
-  background: #ccc;
   cursor: pointer;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  margin-top: 2px;
+  font-size: large;
+  text-align: center;
 }
+label.button{
+  border: 2px solid #3c40c6;
+  background: #d7d9f4;
+  color: #3c40c6;
+}
+label.button:hover{
+  background: #3c40c6;
+  color: #fff;
+}
+button.button{
+  border: 2px solid#ff3f34;
+  background:#ffcfcc;
+  color: #ff3f34;
+}
+button.button:hover{
+  background: #ff3f34;
+  color: #fff;
+}
+
 .button:hover {
   background: #ddd;
 }
 #fileElem {
   display: none;
 }
+
+.file {
+  display: inline-block;
+  padding: 8px;
+  margin: 2px;
+  background: #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+/* #rendiv canvas{
+  transform: scale(0.7,0.7)
+} */
 
 /* handleFiles(event)
 {
