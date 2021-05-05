@@ -39,6 +39,7 @@ class File extends Component {
     rawcode = rawcode.replaceAll('{', ' { ').replaceAll('}', ' } ');
     rawcode = rawcode.replaceAll('[', ' [ ').replaceAll(']', ' ] ');
     rawcode = rawcode.replaceAll(';', ' ; ').replaceAll('=', ' = ');
+    rawcode = rawcode.replaceAll('<', ' < ').replaceAll('>', ' > ');
 
 
     var patt1 = /[\s\0\t\n\f\v]/g;
@@ -215,7 +216,6 @@ class File extends Component {
             const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
             window.dispatchEvent(enlarge);
             this.UMLclasses = [];
-            console.log('hello');
           }
       });
     }

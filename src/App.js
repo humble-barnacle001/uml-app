@@ -33,7 +33,7 @@ class Sketch extends Component {
     // console.log(uml);
     window.addEventListener('uml', (e) => {
       this.state.UMLs = e.detail;
-      console.log(this.state.UMLs);
+      // console.log(this.state.UMLs);
       this.genUMLs();
     });
   }
