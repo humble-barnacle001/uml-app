@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 
 class UMLClass
 {
-  constructor(classN, attr, methods)
+  constructor(classN, attr, methods, depends,supers)
   {
     this.className = classN;
     this.attributes = attr;
     this.methods = methods;
+    this.dependencies = depends;
+    this.parents = supers;
   }
 }
 
@@ -23,6 +25,7 @@ class File extends Component {
     this.handleFiles = this.handleFiles.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fileInput = React.createRef();
+    this.classNames = [];
   }
 
   
@@ -51,69 +54,88 @@ class File extends Component {
     });
 
     let i;
-    let fil = [];
+    let tokens = [];
 
     for(i in filraw)
     {
       if(filraw[i].trim().length > 0)
-        fil.push(filraw[i].trim());
+        tokens.push(filraw[i].trim());
     }
-    // console.log(fil.length);
-    // console.log(fil);
-    return fil;
+    // console.log(tokens.length);
+    // console.log(tokens);
+    return tokens;
   }
 
-  getClasses(fil)
+  getUMLClasses(tokens)
   {
     let i;
 
-    let className = fil[fil.indexOf("class")+1];
+    let className = tokens[tokens.indexOf("class")+1];
 
     
-    let startClass = fil.indexOf("{");
+    let startClass = tokens.indexOf("{");
     // console.log(className);
 
     let methods = [];
     let attrs = [];
-
+    let dependencies = [];
+    let parents = [];
+    // console.log(tokens[6]);
+    for(let i=0;i<startClass;i++)
+    {
+      if(tokens[i] === "extends")
+      {
+        parents.push(tokens[i+1]);
+      }
+    }
 
     let endClass = startClass + 1;
     let count = 1;
 
     let marker = startClass;
 
-    let second2Brace = startClass+1+fil.slice(startClass+1).indexOf("{");
-    let endAttr = fil.slice(0,second2Brace).lastIndexOf(";");
-    attrs = this.getAttributes(fil.slice(startClass+1,endAttr+1));
-    fil.splice(startClass+1, endAttr-startClass);
+    let second2Brace = startClass+1+tokens.slice(startClass+1).indexOf("{");
+    let endAttr = tokens.slice(0,second2Brace).lastIndexOf(";");
+    let attrTokens = tokens.slice(startClass+1,endAttr+1);
+    attrs = this.getAttributes(attrTokens);
+    tokens.splice(startClass+1, endAttr-startClass);
 
     //get methods
-    for(i=startClass+1;i<fil.length;i++)
+    for(i=startClass+1;i<tokens.length;i++)
     {
-      if(fil[i].indexOf("{") !== -1)
+      if(tokens[i].indexOf("{") !== -1)
       {
         count = count+1;
         // console.log(count);
         if(count===2)
         {
-          methods.push(this.getFunctionName(fil.slice(marker+1,i)));
+          methods.push(this.getFunctionName(tokens.slice(marker+1,i)));
         }
       }
-      if(fil[i].indexOf("}") !== -1)
+      if(tokens[i].indexOf("}") !== -1)
       {
         count = count-1;
         marker = i;
         // console.log(count);
       } 
-      if(count===0)
+      if(count==0)
       {
         endClass = i;
         break;
       }
     }
 
-    this.UMLclasses.push(new UMLClass(className,attrs,methods));
-    // console.log(i);
+    // console.log('bindass',startClass,endClass);
+    let classTokens = tokens.slice(startClass,i).concat(attrTokens);
+    // console.log(className,classTokens);
+    for(let i=0;i<this.classNames.length;i++)
+    {
+      let classN = this.classNames[i];
+      if(classTokens.indexOf(classN)>=0 && classN != className)
+        dependencies.push(classN);
+    }
+
+    this.UMLclasses.push(new UMLClass(className,attrs,methods,dependencies,parents));
     return i;
   }
 
@@ -170,24 +192,25 @@ class File extends Component {
     return proto;
   }
 
-  showOnlyClasses(code)
-  {
-    let lines = code.split('\n');
-    let i;
-    for(i in lines)
-    {
-      let line = lines[i];
-      if(line.indexOf("class") !== -1)
-        console.log(line);
-    }
-  }
-
-
   sendUMLclasses()
   {
     const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
     window.dispatchEvent(enlarge);
     // console.log(this.UMLclasses);
+  }
+
+  getClassnames(tokens)
+  {
+    let classNames = [];
+    // console.log(tokens[6]);
+    for(let i=0;i<tokens.length;i++)
+    {
+      if(tokens[i] === "class")
+      {
+        classNames.push(tokens[i+1]);
+      }
+    }
+    return classNames;
   }
 
   handleFiles(event)
@@ -206,6 +229,7 @@ class File extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let filez = this.fileInput.current.files;
+
     for(let i=0;i<filez.length;i++)
     {
       this.showFile(filez[i])
@@ -213,6 +237,16 @@ class File extends Component {
           // console.log(this.UMLclasses);
           if(i==filez.length-1)
           {
+            let tokens = this.getTokens(this.code);
+            // console.log(this.getClassnames(tokens));
+            this.classNames = this.getClassnames(tokens);
+            while(tokens.length>0)
+            {
+              let end = this.getUMLClasses(tokens);
+              tokens = tokens.slice(end+1);
+            }
+            console.log(this.UMLclasses);
+            // console.log('final'+this.code);
             const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
             window.dispatchEvent(enlarge);
             this.UMLclasses = [];
@@ -222,6 +256,7 @@ class File extends Component {
     
 
   }
+
 
   showFile = async(file) => {
 
@@ -234,14 +269,15 @@ class File extends Component {
 
       reader.onload = async (e) => { 
         const text = (e.target.result)
-        // console.log(text);
-        this.code = text;
-        let tokens = this.getTokens(text);
-        while(tokens.length>0)
-        {
-          let end = this.getClasses(tokens);
-          tokens = tokens.slice(end+1);
-        }
+        // console.log('code',text);
+        this.code = text+this.code;
+        // let tokens = this.getTokens(text);
+        // this.getClassnames(tokens);
+        // while(tokens.length>0)
+        // {
+        //   let end = this.getUMLClasses(tokens);
+        //   tokens = tokens.slice(end+1);
+        // }
         resolve();
       };
 
