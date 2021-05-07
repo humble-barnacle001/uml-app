@@ -129,7 +129,7 @@ class File extends Component {
 
     // console.log('bindass',startClass,endClass);
     let classTokens = tokens.slice(startClass,i).concat(attrTokens);
-    console.log(className,classTokens);
+    // console.log(className,classTokens);
     for(let i=0;i<this.classNames.length;i++)
     {
       let classN = this.classNames[i];
@@ -230,7 +230,11 @@ class File extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.UMLclasses = [];
+    this.classNames = [];
+    this.code = "";
     let filez = this.fileInput.current.files;
+    console.log(filez);
 
     for(let i=0;i<filez.length;i++)
     {
@@ -247,7 +251,7 @@ class File extends Component {
               let end = this.getUMLClasses(tokens);
               tokens = tokens.slice(end+1);
             }
-            console.log(this.UMLclasses);
+            // console.log(this.UMLclasses);
             // console.log('final'+this.code);
             const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
             window.dispatchEvent(enlarge);

@@ -34,6 +34,7 @@ class Sketch extends Component {
     // console.log(uml);
     window.addEventListener('uml', (e) => {
       this.state.UMLs = e.detail;
+      this.classes = {};
       // console.log(this.state.UMLs);
       this.genUMLs();
     });
@@ -49,7 +50,7 @@ class Sketch extends Component {
     y += 30;
 
     p.noStroke();
-    p.fill('#ff4971');
+    p.fill('#3c40c6');
     p.textSize(15);
     p.textAlign(p.LEFT);
 
@@ -77,10 +78,11 @@ class Sketch extends Component {
     p.textAlign(p.CENTER);
     p.text(uml.className, (2*x+maxSize)/2, ay+20);
 
-    p.stroke('#ff4971');
+    p.stroke('#3c40c6');
+    p.strokeWeight(2.4);
     p.noFill();
     // p.blendMode(p.MULTIPLY);
-    p.rect(x, ay, maxSize, y+10 - ay, 10);
+    p.rect(x, ay, maxSize, y+10 - ay,5);
 
     p.line(x,ay+28,x+maxSize,ay+28);
 
@@ -177,11 +179,13 @@ class Sketch extends Component {
   superArrow(p,ax,ay,bx,by)
   {
     p.stroke('rgba(0%,0%,0%,0.5)');
+    p.strokeWeight(1.4);
     // for(let i=ax;i<by;i++)
     // {
     let dis=  p.dist(ax,ay,bx,by);
     // }
-    p.push() //start new drawing state
+    p.push();
+     //start new drawing state
     var angle = p.atan2(ay - by, ax - bx); //gets the angle of the line
     p.translate(bx, by);//translates to the destination vertex
     p.rotate(angle);//
@@ -189,13 +193,14 @@ class Sketch extends Component {
     p.rotate(-p.HALF_PI);
     let offset = 20; //rotates the arrow point
 
-    p.triangle(-offset*0.5, offset, offset*0.5, offset, 0, 0); //draws the arrow point as a triangle
+    p.triangle(-offset*0.5, offset*1.5, offset*0.5, offset*1.5, 0, 0); //draws the arrow point as a triangle
     p.pop();
   }
 
   depenArrow(p,ax,ay,bx,by)
   {
-    p.stroke('rgba(28%,70%,100%,1)');
+    p.stroke('rgba(28%,70%,90%,1)');
+    p.strokeWeight(1.4);
     // for(let i=ax;i<by;i++)
     // {
     let dis=  p.dist(ax,ay,bx,by);
@@ -214,9 +219,9 @@ class Sketch extends Component {
     let offset = 20; //rotates the arrow point
     // p.line(0,0,20,20);
     p.beginShape();
-    p.vertex(offset*0.5, offset);
+    p.vertex(offset*0.5, offset*1.5);
     p.vertex(0, 0);
-    p.vertex(-offset*0.5, offset);
+    p.vertex(-offset*0.5, offset*1.5);
     // p.vertex(-offset*0.5, offset);
     p.endShape();
     // p.triangle(-offset*0.5, offset, offset*0.5, offset, 0, -offset/2); //draws the arrow point as a triangle
@@ -260,7 +265,7 @@ class Sketch extends Component {
               y = newY;
           }
 
-          console.log(this.classes);
+          // console.log(this.classes);
           p.remove();
           maxX=maxX+30;
           maxY=maxY+30;
