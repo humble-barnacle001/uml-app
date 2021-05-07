@@ -35,6 +35,8 @@ class File extends Component {
     //remove comments
     let regex = /\/\/(.*?)\n/ig;
     rawcode = rawcode.replaceAll(regex, ' ');
+    // regex = /\/\/(.*?)\n/ig;
+    // rawcode = rawcode.replaceAll(regex, ' ');
     // let regex = /\/\/(.*?)\n/ig;
     // console.log(p.replaceAll(regex, ' '));
     // let lines = code.split('\n');
@@ -127,7 +129,7 @@ class File extends Component {
 
     // console.log('bindass',startClass,endClass);
     let classTokens = tokens.slice(startClass,i).concat(attrTokens);
-    // console.log(className,classTokens);
+    console.log(className,classTokens);
     for(let i=0;i<this.classNames.length;i++)
     {
       let classN = this.classNames[i];
@@ -238,7 +240,7 @@ class File extends Component {
           if(i==filez.length-1)
           {
             let tokens = this.getTokens(this.code);
-            // console.log(this.getClassnames(tokens));
+            // console.log(tokens);
             this.classNames = this.getClassnames(tokens);
             while(tokens.length>0)
             {

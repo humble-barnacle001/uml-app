@@ -88,72 +88,83 @@ class Sketch extends Component {
     let t=0,l=0;
     uml.dependencies.forEach( (umlDName,i) => {
       let umlD = this.classes[umlDName];
-      if(x-umlD['ax']==0)
+      if(umlD)
       {
-        // console.log((2*x+maxSize)/2,ay,(2*x+maxSize)/2,umlD['by']);
-        this.depenArrow(p,(x+30*++t),ay,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
-      }
-      else if(x-umlD['ax']>0)
-      {
-        if(umlD['ay']-y>80)
+        if(x-umlD['ax']==0)
         {
-          this.depenArrow(p,x,ay+30*++l,(umlD['ax']+umlD['bx'])/2,umlD['ay']);
+          // console.log((2*x+maxSize)/2,ay,(2*x+maxSize)/2,umlD['by']);
+          this.depenArrow(p,(x+30*++t),ay,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
         }
-        else if(ay-umlD['y']>80)
+        else if(x-umlD['ax']>0)
         {
-          this.depenArrow(p,x,ay+30*++l,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
+          if(umlD['ay']-y>80)
+          {
+            this.depenArrow(p,x,ay+30*++l,(umlD['ax']+umlD['bx'])/2,umlD['ay']);
+          }
+          else if(ay-umlD['y']>80)
+          {
+            this.depenArrow(p,x,ay+30*++l,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
+          }
+          else
+            this.depenArrow(p,x,ay+30*++l,umlD['bx'],(umlD['ay']+umlD['by'])/2);
         }
         else
-          this.depenArrow(p,x,ay+30*++l,umlD['bx'],(umlD['ay']+umlD['by'])/2);
-      }
-      else
-      {
-        if(umlD['by']-ay>80)
         {
-          this.depenArrow(p,x+maxSize,ay+30*++l,(umlD['ax']+umlD['bx'])/2,umlD['ay']);
+          if(umlD['by']-ay>80)
+          {
+            this.depenArrow(p,x+maxSize,ay+30*++l,(umlD['ax']+umlD['bx'])/2,umlD['ay']);
+          }
+          else if(ay-umlD['by']>80)
+          {
+            this.depenArrow(p,x+maxSize,ay+30*++l,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
+          }
+          else
+            this.depenArrow(p,x+maxSize,ay+30*++l,umlD['bx'],(umlD['ay']+umlD['by'])/2);
         }
-        else if(ay-umlD['by']>80)
-        {
-          this.depenArrow(p,x+maxSize,ay+30*++l,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
-        }
-        else
-          this.depenArrow(p,x+maxSize,ay+30*++l,umlD['bx'],(umlD['ay']+umlD['by'])/2);
       }
     });
 
     uml.parents.forEach( (umlDName,i) => {
       let umlD = this.classes[umlDName];
-      if(x-umlD['ax']==0)
+      if(umlD)
       {
-        // console.log((2*x+maxSize)/2,ay,(2*x+maxSize)/2,umlD['by']);
-        this.superArrow(p,(x+30*++t),ay,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
-      }
-      else if(x-umlD['ax']>0)
-      {
-        if(umlD['ay']-y>80)
+        if(x-umlD['ax']==0)
         {
-          this.superArrow(p,x,ay+30*++l,(umlD['ax']+umlD['bx'])/2,umlD['ay']);
+          if(umlD['ay']>y)
+            this.superArrow(p,(x+30*++t),y+10,(umlD['ax']+umlD['bx'])/2,(umlD['ay']));
+          else
+            this.superArrow(p,(x+30*++t),ay,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
+          // console.log((2*x+maxSize)/2,ay,(2*x+maxSize)/2,umlD['by']);
+          
         }
-        else if(ay-umlD['y']>80)
+        else if(x-umlD['ax']>0)
         {
-          this.superArrow(p,x,ay+30*++l,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
+          if(umlD['ay']-y>80)
+          {
+            this.superArrow(p,x,ay+30*++l,(umlD['ax']+umlD['bx'])/2,umlD['ay']);
+          }
+          else if(ay-umlD['y']>80)
+          {
+            this.superArrow(p,x,ay+30*++l,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
+          }
+          else
+            this.superArrow(p,x,ay+30*++l,umlD['bx'],(umlD['ay']+umlD['by'])/2);
         }
         else
-          this.superArrow(p,x,ay+30*++l,umlD['bx'],(umlD['ay']+umlD['by'])/2);
-      }
-      else
-      {
-        if(umlD['by']-ay>80)
         {
-          this.superArrow(p,x+maxSize,ay+30*++l,(umlD['ax']+umlD['bx'])/2,umlD['ay']);
+          if(umlD['by']-ay>80)
+          {
+            this.superArrow(p,x+maxSize,ay+30*++l,(umlD['ax']+umlD['bx'])/2,umlD['ay']);
+          }
+          else if(ay-umlD['by']>80)
+          {
+            this.superArrow(p,x+maxSize,ay+30*++l,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
+          }
+          else
+            this.superArrow(p,x+maxSize,ay+30*++l,umlD['bx'],(umlD['ay']+umlD['by'])/2);
         }
-        else if(ay-umlD['by']>80)
-        {
-          this.superArrow(p,x+maxSize,ay+30*++l,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
-        }
-        else
-          this.superArrow(p,x+maxSize,ay+30*++l,umlD['bx'],(umlD['ay']+umlD['by'])/2);
       }
+      
     });
     p.blendMode(p.BLEND);
     return [x+maxSize,y];
@@ -266,7 +277,7 @@ class Sketch extends Component {
           y = 30;
           maxX=0;
           maxY=0;
-          console.clear();
+          // console.clear();
           // p.background(0);
           for(let i=0;i<this.state.UMLs.length;i++)
           {
