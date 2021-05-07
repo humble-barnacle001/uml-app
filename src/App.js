@@ -86,14 +86,18 @@ class Sketch extends Component {
 
     p.line(x,cy+10,x+maxSize,cy+10);
     let t=0,l=0;
+    let midx = (2*x+maxSize)/2;
     uml.dependencies.forEach( (umlDName,i) => {
       let umlD = this.classes[umlDName];
       if(umlD)
       {
         if(x-umlD['ax']==0)
         {
+          if(umlD['ay']>y)
+            this.depenArrow(p,(x+30*++t),y+10,(umlD['ax']+umlD['bx'])/2,(umlD['ay']));
+          else
+            this.depenArrow(p,(x+30*++t),ay,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
           // console.log((2*x+maxSize)/2,ay,(2*x+maxSize)/2,umlD['by']);
-          this.depenArrow(p,(x+30*++t),ay,(umlD['ax']+umlD['bx'])/2,(umlD['by']+10));
         }
         else if(x-umlD['ax']>0)
         {
