@@ -1,19 +1,19 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import p5 from 'p5';
 import React, {Component} from 'react';
 import File from './FileCom';
 
 
-class UMLClass
-{
-  constructor()
-  {
-    this.className = "";
-    this.attributes = [];
-    this.methods = [];
-  }
-}
+// class UMLClass
+// {
+//   constructor()
+//   {
+//     this.className = "";
+//     this.attributes = [];
+//     this.methods = [];
+//   }
+// }
 
 class Sketch extends Component {
   state = {
@@ -33,7 +33,7 @@ class Sketch extends Component {
     // let uml = new UMLClass();
     // console.log(uml);
     window.addEventListener('uml', (e) => {
-      this.state.UMLs = e.detail;
+      this.setState(...this.state, {UMLs: e.detail});
       this.classes = {};
       // console.log(this.state.UMLs);
       this.genUMLs();
@@ -43,7 +43,7 @@ class Sketch extends Component {
   drawUML(uml,p,x,y)
   {
     let ay = y;
-    let ax = x;
+//     let ax = x;
     let maxSize=0;
 
 
@@ -88,12 +88,12 @@ class Sketch extends Component {
 
     p.line(x,cy+10,x+maxSize,cy+10);
     let t=0,l=0;
-    let midx = (2*x+maxSize)/2;
+//     let midx = (2*x+maxSize)/2;
     uml.dependencies.forEach( (umlDName,i) => {
       let umlD = this.classes[umlDName];
       if(umlD)
       {
-        if(x-umlD['ax']==0)
+        if(x-umlD['ax']===0)
         {
           if(umlD['ay']>y)
             this.depenArrow(p,(x+30*++t),y+10,(umlD['ax']+umlD['bx'])/2,(umlD['ay']));
@@ -134,7 +134,7 @@ class Sketch extends Component {
       let umlD = this.classes[umlDName];
       if(umlD)
       {
-        if(x-umlD['ax']==0)
+        if(x-umlD['ax']===0)
         {
           if(umlD['ay']>y)
             this.superArrow(p,(x+30*++t),y+10,(umlD['ax']+umlD['bx'])/2,(umlD['ay']));
