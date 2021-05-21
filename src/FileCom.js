@@ -33,8 +33,11 @@ class File extends Component {
   getTokens(rawcode)
   {
     //remove comments
-    let regex = /\/\/(.*?)\n/ig;
+    let regex = /\/\/(.*?)\n/ig; // Single line comments
     rawcode = rawcode.replaceAll(regex, ' ');
+    // TODO: Remove multi line comments
+    
+    
     // regex = /\/\/(.*?)\n/ig;
     // rawcode = rawcode.replaceAll(regex, ' ');
     // let regex = /\/\/(.*?)\n/ig;
@@ -235,7 +238,7 @@ class File extends Component {
     this.classNames = [];
     this.code = "";
     let filez = this.fileInput.current.files;
-    console.log(filez);
+//     console.log(filez);
 
     for(let i=0;i<filez.length;i++)
     {
