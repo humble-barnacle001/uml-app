@@ -92,7 +92,7 @@ class File extends Component {
       }
     }
 
-    let endClass = startClass + 1;
+//     let endClass = startClass + 1;
     let count = 1;
 
     let marker = startClass;
