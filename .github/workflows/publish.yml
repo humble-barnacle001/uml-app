@@ -11,11 +11,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
-    - name: Cache
+    - name: Cache dependencies
       uses: actions/cache@v2.1.5
       with:
         path: node_modules/*
         key: dep-cache
+    - name: Cache static build files
+      uses: actions/cache@v2.1.5
+      with:
+        path: build/*
+        key: build-cache
     - run: npm i
     - name: Build static files
       run: npm run build
