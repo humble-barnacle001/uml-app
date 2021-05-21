@@ -53,7 +53,7 @@ class File extends Component {
 
     var filraw = codeCon.filter(function (el) {
 //       return (el!== undefined && !isNaN(el) && el !== null && el !== '\t' && el !== '\n' && el !== '\b' );
-      return !(el=== undefined || isNaN(el) || el === null || el === '\t' || el === '\n' || el === '\b' );
+      return !(el=== undefined || Number.isNaN(el) || el === null || el === '\t' || el === '\n' || el === '\b' );
     });
 
     let i;
@@ -254,8 +254,9 @@ class File extends Component {
             }
             // console.log(this.UMLclasses);
             // console.log('final'+this.code);
-            const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
-            window.dispatchEvent(enlarge);
+//             const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
+//             window.dispatchEvent(enlarge);
+            sendUMLclasses();
             this.UMLclasses = [];
           }
       });
