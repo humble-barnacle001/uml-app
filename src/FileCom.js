@@ -33,8 +33,11 @@ class File extends Component {
   getTokens(rawcode)
   {
     //remove comments
-    let regex = /\/\/(.*?)\n/ig;
+    let regex = /\/\/(.*?)\n/ig; // Single line comments
     rawcode = rawcode.replaceAll(regex, ' ');
+    // TODO: Remove multi line comments
+    
+    
     // regex = /\/\/(.*?)\n/ig;
     // rawcode = rawcode.replaceAll(regex, ' ');
     // let regex = /\/\/(.*?)\n/ig;
@@ -52,7 +55,8 @@ class File extends Component {
     // console.log(startClass);
 
     var filraw = codeCon.filter(function (el) {
-      return (el!== undefined && el!== NaN && el !== null && el !== '\t' && el !== '\n' && el !== '\b' );
+//       return (el!== undefined && !isNaN(el) && el !== null && el !== '\t' && el !== '\n' && el !== '\b' );
+      return !(el=== undefined || Number.isNaN(el) || el === null || el === '\t' || el === '\n' || el === '\b' );
     });
 
     let i;
@@ -91,7 +95,7 @@ class File extends Component {
       }
     }
 
-    let endClass = startClass + 1;
+//     let endClass = startClass + 1;
     let count = 1;
 
     let marker = startClass;
@@ -120,9 +124,9 @@ class File extends Component {
         marker = i;
         // console.log(count);
       } 
-      if(count==0)
+      if(count===0)
       {
-        endClass = i;
+//         endClass = i;
         break;
       }
     }
@@ -133,7 +137,7 @@ class File extends Component {
     for(let i=0;i<this.classNames.length;i++)
     {
       let classN = this.classNames[i];
-      if(classTokens.indexOf(classN)>=0 && classN != className)
+      if(classTokens.indexOf(classN)>=0 && classN !== className)
         dependencies.push(classN);
     }
 
@@ -148,7 +152,7 @@ class File extends Component {
     let i =0;
     for(i in tokens)
     {
-      if(tokens[i] == ";")
+      if(tokens[i] === ";")
       {
         i = parseInt(i);
         attr.push(this.getAttrString(tokens.slice(a,i+1)));
@@ -163,7 +167,7 @@ class File extends Component {
     let eos = tokens.lastIndexOf(";");
     let eq = tokens.lastIndexOf("=");
     let end;
-    if(eq == -1)
+    if(eq === -1)
       end = eos;
     else
       end = eq;
@@ -173,11 +177,11 @@ class File extends Component {
     for(i=end-1;i>=0;i--)
     {
       name = tokens[i] + " " + name;
-      if(tokens[i] == "]")
+      if(tokens[i] === "]")
         flag = false;
-      if(tokens[i] == "[")
+      if(tokens[i] === "[")
         flag = true;
-      if(flag && tokens[i] != "[")
+      if(flag && tokens[i] !== "[")
         break;
     }
     name += ": " + tokens.slice(0,i).join(" ");
@@ -234,14 +238,14 @@ class File extends Component {
     this.classNames = [];
     this.code = "";
     let filez = this.fileInput.current.files;
-    console.log(filez);
+//     console.log(filez);
 
     for(let i=0;i<filez.length;i++)
     {
       this.showFile(filez[i])
       .then(()=>{
           // console.log(this.UMLclasses);
-          if(i==filez.length-1)
+          if(i===filez.length-1)
           {
             let tokens = this.getTokens(this.code);
             // console.log(tokens);
@@ -253,8 +257,9 @@ class File extends Component {
             }
             // console.log(this.UMLclasses);
             // console.log('final'+this.code);
-            const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
-            window.dispatchEvent(enlarge);
+//             const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
+//             window.dispatchEvent(enlarge);
+            this.sendUMLclasses();
             this.UMLclasses = [];
           }
       });
