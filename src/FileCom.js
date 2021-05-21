@@ -256,7 +256,7 @@ class File extends Component {
             // console.log('final'+this.code);
 //             const enlarge = new CustomEvent('uml', { detail: this.UMLclasses });
 //             window.dispatchEvent(enlarge);
-            sendUMLclasses();
+            this.sendUMLclasses();
             this.UMLclasses = [];
           }
       });
